@@ -25,6 +25,10 @@ export function loadModel() {
       use_mlock: false,
       use_mmap: true,
       n_gpu_layers: 0,
+      // No CPU_REPACK weight buffers: on some ARM phones llama.cpp aborts the whole app while
+      // building the graph ("pre-allocated tensor … in a buffer (CPU_REPACK) that cannot run the
+      // operation"). Costs a little decode speed, but the model always loads.
+      no_extra_bufts: true,
     });
     context = created;
     created.catch(() => {
